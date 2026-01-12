@@ -5,11 +5,13 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.hamcrest.Matchers.equalTo;
+
 
 public class tests {
 
     static String baseURL = "http://api.openweathermap.org";
-    static String authToken = "f31404aed7e27d3bb39bb80ceea07911";
+    static String apiKey = "f31404aed7e27d3bb39bb80ceea07911";
     static String stationID;
     static String externalID;
     static String stationName;
@@ -30,16 +32,17 @@ public class tests {
                 .baseUri(baseURL)
                 .basePath(path)
                 .header("Content-Type", "application/json")
-                .queryParam("appid", authToken)
+                .queryParam("appid", apiKey)
                 .body(payload)
                 .log().all()
                 .post().prettyPeek();
 
-        // validate data returned for each response field
-        // .body("externalID", equalTo("{{externalID}}"))//.body("name", equalTo("{{station_name}}"))
-        // .body("latitude", equalTo(37.76f))
-        // .body("longitude", equalTo(-122.43f))
-        // .body("altitude", equalTo(150));
+                //validate data returned for each response field
+//                .body()
+//                .body("name", equalTo("{{stationName}}"))
+//                .body("latitude", equalTo(37.76f))
+//                .body("longitude", equalTo(-122.43f))
+//                .body("altitude", equalTo(150));
 
         //Extract station id for further use
         stationID = responseBody.jsonPath().getString("ID");
@@ -51,10 +54,10 @@ public class tests {
         Assert.assertEquals(actualStatusCode, 201, "Status code should be 201");
 
         //create a method to generate external_id and station_name in response
-          String externalID = "station_" + System.currentTimeMillis();
-          String stationName = "Weather Station " + System.currentTimeMillis();
-          System.out.println("Generated externalID: " + externalID);
-          System.out.println("Generated stationName: " + stationName);
+        String externalID = "station_" + System.currentTimeMillis();
+        String stationName = "Weather Station " + System.currentTimeMillis();
+        System.out.println("Generated externalID: " + externalID);
+        System.out.println("Generated stationName: " + stationName);
     }
 
     @Test(priority = 2)
@@ -72,7 +75,7 @@ public class tests {
                 .baseUri(baseURL)
                 .basePath(path)
                 .header("Content-Type", "application/json")
-                .queryParam("appid", authToken)
+                .queryParam("appid", apiKey)
                 .body(payload)
                 .log().all()
                 .post().prettyPeek();
@@ -98,7 +101,7 @@ public class tests {
                 .baseUri(baseURL)
                 .basePath(path)
                 .header("Content-Type", "application/json")
-                .queryParam("appid", authToken)
+                .queryParam("appid", apiKey)
                 .body(payload)
                 .log().all()
                 .post().prettyPeek();
@@ -119,7 +122,7 @@ public class tests {
                 .basePath(path)
                 .header("Content-Type", "application/json")
                 .pathParam("stationID", stationID)
-                .queryParam("appid", authToken)
+                .queryParam("appid", apiKey)
                 .log().all()
                 .get().prettyPeek();
 
@@ -128,6 +131,7 @@ public class tests {
         int actualStatusCode = responseBody.getStatusCode();
         Assert.assertEquals(actualStatusCode, 200, "Status code should be 200");
     }
+
     @Test(priority = 5)
     public void updateLongitudeAndLatitude() {
         String path = "/data/3.0/stations/{stationID}";
@@ -144,7 +148,7 @@ public class tests {
                 .basePath(path)
                 .header("Content-Type", "application/json")
                 .pathParam("stationID", stationID)
-                .queryParam("appid", authToken)
+                .queryParam("appid", apiKey)
                 .body(payload)
                 .log().all()
                 .put().prettyPeek();
@@ -165,7 +169,7 @@ public class tests {
                 .basePath(path)
                 .header("Content-Type", "application/json")
                 .pathParam("stationID", stationID)
-                .queryParam("appid", authToken)
+                .queryParam("appid", apiKey)
                 .log().all()
                 .delete().prettyPeek();
 

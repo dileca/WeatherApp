@@ -2,9 +2,9 @@ package payloadBuilder;
 
 import org.json.simple.JSONObject;
 
-public class WeatherStationPayload {
+public class WSPayload {
 
-    public JSONObject registerWeatherStationPayload(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject registerWeatherStationPayload(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject registerWeatherStation = new JSONObject();
         registerWeatherStation.put("external_id", external_id);
         registerWeatherStation.put("name", name);
@@ -14,7 +14,7 @@ public class WeatherStationPayload {
         return registerWeatherStation;
     }
 
-    public JSONObject registerWeatherStationWithoutStationName(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject registerWeatherStationWithoutStationName(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject registerWeatherStationWithoutStationName = new JSONObject();
         registerWeatherStationWithoutStationName.put("external_id", external_id);
         registerWeatherStationWithoutStationName.put("", name);
@@ -24,7 +24,7 @@ public class WeatherStationPayload {
         return registerWeatherStationWithoutStationName;
     }
 
-    public JSONObject registerWeatherStationWithoutLatitude(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject registerWeatherStationWithoutLatitude(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject registerWeatherStationWithoutLatitude = new JSONObject();
         registerWeatherStationWithoutLatitude.put("external_id", external_id);
         registerWeatherStationWithoutLatitude.put("name", name);
@@ -34,7 +34,7 @@ public class WeatherStationPayload {
         return registerWeatherStationWithoutLatitude;
     }
 
-    public JSONObject registerWeatherStationWithoutLongitude(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject registerWeatherStationWithoutLongitude(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject registerWeatherStationWithoutLongitude = new JSONObject();
         registerWeatherStationWithoutLongitude.put("external_id", external_id);
         registerWeatherStationWithoutLongitude.put("name", name);
@@ -44,7 +44,7 @@ public class WeatherStationPayload {
         return registerWeatherStationWithoutLongitude;
     }
 
-    public JSONObject registerWeatherStationWithoutAltitude(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject registerWeatherStationWithoutAltitude(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject registerWeatherStationWithoutAltitude = new JSONObject();
         registerWeatherStationWithoutAltitude.put("external_id", external_id);
         registerWeatherStationWithoutAltitude.put("name", name);
@@ -54,7 +54,7 @@ public class WeatherStationPayload {
         return registerWeatherStationWithoutAltitude;
     }
 
-    public JSONObject registerWeatherStationWithoutExternalIDPayload(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject registerWeatherStationWithoutExternalIDPayload(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject registerWeatherStationWithoutExternalID = new JSONObject();
         registerWeatherStationWithoutExternalID.put("", external_id);
         registerWeatherStationWithoutExternalID.put("name", name);
@@ -64,12 +64,7 @@ public class WeatherStationPayload {
         return registerWeatherStationWithoutExternalID;
     }
 
-    public JSONObject getWeatherStationInfoPayload() {
-        JSONObject getWeatherStationInfo = new JSONObject();
-        return getWeatherStationInfo;
-    }
-
-    public JSONObject updateWeatherStationPayload(String name, String external_id, String latitude, String longitude, String altitude) {
+    public static JSONObject updateWeatherStationPayload(String name, String external_id, Integer latitude, Integer longitude, Integer altitude) {
         JSONObject updateWeatherStation = new JSONObject();
         updateWeatherStation.put("external_id", external_id);
         updateWeatherStation.put("name", name);
@@ -78,14 +73,4 @@ public class WeatherStationPayload {
         updateWeatherStation.put("altitude", altitude);
         return updateWeatherStation;
     }
-
-    public JSONObject deleteWeatherStationPayload() {
-        JSONObject deleteWeatherStation = new JSONObject();
-        return deleteWeatherStation;
-    }
-
-
-
-
-
 }
