@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 
 import static commom.Base.baseURL;
 import static io.restassured.RestAssured.post;
-import static payloadBuilder.WSPayload.registerWeatherStationPayload;
+import static payloadBuilder.WSPayload.*;
 
 public class WSRequestBuilder {
 
@@ -25,7 +25,7 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("Downtown Weather Station", "WS002", 37, -122, 150))
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS001", 37, -122, 150))
                 .post()
                 .then()
                 .extract().response();
@@ -48,7 +48,7 @@ public class WSRequestBuilder {
                 .extract().response();
     }
 
-    public static Response updateLongitudeAndLatitudeResponse(String stationID, Double latitude, Double longitude) {
+    public static Response updateLongitudeAndLatitudeResponse(String stationID) {
 
         return RestAssured.given()
                 .baseUri(baseURL)
@@ -57,7 +57,7 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("Downtown Weather Station", "WS005", 39, -122, null))
+                .body(updateWeatherStationPayload("Downtown Weather Station", "WS002", 41, -106, 150))
                 .put()
                 .then()
                 .extract().response();
@@ -86,7 +86,7 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("", "WS002", 37, -122, 150))
+                .body(registerWeatherStationPayload("", "WS003", 28, -142, 130))
                 .post()
                 .then()
                 .extract().response();
@@ -101,11 +101,12 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("Downtown Weather Station", "", 37, -122, 150))
+                .body(registerWeatherStationPayload("Boston Weather Station", "", 28, -142, 130))
                 .post()
                 .then()
                 .extract().response();
     }
+
 
     public static Response registerWeatherStationWithoutLatitudeResponse() {
 
@@ -116,7 +117,7 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", Integer.valueOf(" ".toString()), -122, 150))
+                .body(registerWeatherStationPayload("Boston Weather Station", "WS003", Integer.valueOf(" ".toString()), -142, 130))
                 .post()
                 .then()
                 .extract().response();
@@ -131,7 +132,7 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("Downtown Weather Station", "WS004", 37, Integer.valueOf(" ".toString()), 150))
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", 28, Integer.valueOf(" ".toString()), 130))
                 .post()
                 .then()
                 .extract().response();
@@ -146,8 +147,113 @@ public class WSRequestBuilder {
                 .header("Content-Type", "application/json")
                 .queryParam("appid", apiKey)
                 .log().all()
-                .body(registerWeatherStationPayload("Downtown Weather Station", "WS005", 37, -122, Integer.valueOf(" ".toString())))
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", 28, -142, Integer.valueOf(" ".toString())))
                 .post()
+                .then()
+                .extract().response();
+    }
+
+    public static Response registerWeatherStation_LatitudeOutOfRangeResponse() {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations")
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", 95, -142, 100))
+                .post()
+                .then()
+                .extract().response();
+    }
+
+    public static Response registerWeatherStation_LongitudeOutOfRangeResponse() {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations")
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", 28, -190, 100))
+                .post()
+                .then()
+                .extract().response();
+    }
+
+    public static Response registerWeatherStation_LatitudeAsStringResponse() {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations")
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", Integer.valueOf("one hundred".toString()), -142, Integer.valueOf("One hundred".toString())))
+                .post()
+                .then()
+                .extract().response();
+    }
+
+    public static Response registerWeatherStation_LongitudeAsStringResponse() {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations")
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", 28, Integer.valueOf("two hundred".toString()), Integer.valueOf("One hundred".toString())))
+                .post()
+                .then()
+                .extract().response();
+    }
+
+    public static Response registerWeatherStation_AltitudeAsStringResponse() {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations")
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(registerWeatherStationPayload("Downtown Weather Station", "WS003", 28, -142, Integer.valueOf("three hundred".toString())))
+                .post()
+                .then()
+                .extract().response();
+    }
+
+    public static Response updateWeatherStation_LatitudeOutOfRangeResponse(String stationID) {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations/" + stationID)
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(updateWeatherStationPayload("Downtown Weather Station", "WS002", 95, -106, 150))
+                .put()
+                .then()
+                .extract().response();
+    }
+
+    public static Response updateWeatherStation_LongitudeOutOfRangeResponse(String stationID) {
+
+        return RestAssured.given()
+                .baseUri(baseURL)
+                .basePath("/data/3.0/stations/" + stationID)
+                .contentType(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .queryParam("appid", apiKey)
+                .log().all()
+                .body(updateWeatherStationPayload("Downtown Weather Station", "WS002", 41, -190, 150))
+                .put()
                 .then()
                 .extract().response();
     }

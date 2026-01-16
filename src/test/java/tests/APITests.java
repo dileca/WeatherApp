@@ -17,10 +17,10 @@ public class APITests {
                 .log().all()
                 .assertThat()
                 .statusCode(201)
-                .body("external_ID", equalTo("WS002"))
+                .body("external_id", equalTo("WS001"))
                 .body("name", equalTo("Downtown Weather Station"))
-                .body("latitude", equalTo(37.76f))
-                .body("longitude", equalTo(-122.43f))
+                .body("latitude", equalTo(37))
+                .body("longitude", equalTo(-122))
                 .body("altitude", equalTo(150));
     }
 
@@ -30,16 +30,26 @@ public class APITests {
                 .then()
                 .log().all()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .body("external_id", equalTo("WS001"))
+                .body("name", equalTo("Downtown Weather Station"))
+                .body("latitude", equalTo(37))
+                .body("longitude", equalTo(-122))
+                .body("altitude", equalTo(150));
     }
 
     @Test(priority = 2)
     public void updateLongitudeAndLatitudeTest() {
-        WSRequestBuilder.updateLongitudeAndLatitudeResponse(String.valueOf(stationID), -123.45, 38.76)
+        WSRequestBuilder.updateLongitudeAndLatitudeResponse(String.valueOf(stationID))
                 .then()
                 .log().all()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .body("external_id", equalTo("WS002"))
+                .body("name", equalTo("Downtown Weather Station"))
+                .body("latitude", equalTo(41))
+                .body("longitude", equalTo(-106))
+                .body("altitude", equalTo(150));
     }
 
     @Test(priority = 3)
@@ -96,5 +106,67 @@ public class APITests {
                 .statusCode(400);
     }
 
+    @Test(priority = 9)
+    public void registerWeatherStation_LatitudeOutOfRangeTest() {
+        WSRequestBuilder.registerWeatherStation_LatitudeOutOfRangeResponse()
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test(priority = 10)
+    public void registerWeatherStation_LongitudeOutOfRangeTest() {
+        WSRequestBuilder.registerWeatherStation_LongitudeOutOfRangeResponse()
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test(priority = 11)
+    public void registerWeatherStation_LatitudeAsStringTest() {
+        WSRequestBuilder.registerWeatherStation_LatitudeAsStringResponse()
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test(priority = 12)
+    public void registerWeatherStation_LongitudeAsStringTest() {
+        WSRequestBuilder.registerWeatherStation_LongitudeAsStringResponse()
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test(priority = 13)
+    public void registerWeatherStation_AltitudeAsStringTest() {
+        WSRequestBuilder.registerWeatherStation_AltitudeAsStringResponse()
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test(priority = 14)
+    public void updateWeatherStation_LatitudeOutOfRangeTest() {
+        WSRequestBuilder.updateWeatherStation_LatitudeOutOfRangeResponse(String.valueOf(stationID))
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test(priority = 15)
+    public void updateWeatherStation_LongitudeOutOfRangeTest() {
+        WSRequestBuilder.updateWeatherStation_LongitudeOutOfRangeResponse(String.valueOf(stationID))
+                .then()
+                .log().all()
+                .assertThat()
+                .statusCode(400);
+    }
 
 }
